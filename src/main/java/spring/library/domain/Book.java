@@ -2,6 +2,7 @@ package spring.library.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Book {
     private String classification;
     private String status;
     private String amount;
-    @ManyToOne()
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // 외래키 지정
     private User user;
 }

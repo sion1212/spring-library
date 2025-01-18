@@ -1,11 +1,10 @@
 package spring.library.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import spring.library.controller.request.UserRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,10 +20,12 @@ public class User {
     private String feature;
     private String email;
     private String phoneNumber;
-    @OneToMany
-    private List<Book> bookList;
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Book> bookList = new ArrayList<>();
 
-    public static User from(UserRequest userRequest){
+    public static User from(UserRequest userRequest) {
         return User.builder()
                 .idNumber(userRequest.getIdNumber())
                 .name(userRequest.getName())
@@ -34,7 +35,7 @@ public class User {
                 .build();
     }
 
-    public void update(User user){
+    public void update(User user) {
         idNumber = user.getIdNumber();
         name = user.getName();
         feature = user.getFeature();
