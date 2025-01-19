@@ -12,7 +12,7 @@ import spring.library.dto.BookDto;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String author;

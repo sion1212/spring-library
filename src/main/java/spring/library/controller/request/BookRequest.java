@@ -12,5 +12,4 @@ public class BookRequest {
     private int publicationYear;
     private String classification;
     private String status;
-    private String amount;
 }

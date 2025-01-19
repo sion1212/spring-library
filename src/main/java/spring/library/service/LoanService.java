@@ -2,13 +2,26 @@ package spring.library.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
+import spring.library.controller.request.MemberIdRequest;
+import spring.library.domain.Book;
+import spring.library.domain.Loan;
+import spring.library.domain.Member;
+import spring.library.dto.LoanDto;
+import spring.library.repository.BookRepository;
 import spring.library.repository.LoanRepository;
+import spring.library.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
 public class LoanService {
     private final LoanRepository loanRepository;
+    private final BookRepository bookRepository;
+    private final MemberRepository memberRepository;
 
-
+    public LoanDto loanBook(Long bookId, MemberIdRequest memberIdRequest) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("null"));
+        Member member = memberRepository.findById(memberIdRequest.getMemberId()).orElseThrow(() -> new IllegalArgumentException("null"));
+        Loan loan = Loan.from(book, member);
+        return LoanDto.from(loanRepository.save(loan));
+    }
 }

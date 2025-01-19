@@ -3,20 +3,34 @@ package spring.library.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import spring.library.domain.Book;
-import spring.library.domain.Member;
+import spring.library.domain.Loan;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Builder
 public class LoanDto {
-    private Long id;
-    private Member member;
-    private Book book;
-    private LocalDateTime dueDate;
-    private LocalDateTime loanDate;
+    private LocalDate dueDate;
+    private LocalDate loanDate;
     private int renewalCount;
     private Boolean isReturned;
+
+    private Long memberId;
+    private String memberName;
+    private Long bookId;
+    private String bookTitle;
+
+    public static LoanDto from(Loan loan){
+        return LoanDto.builder()
+                .loanDate(loan.getLoanDate())
+                .dueDate(loan.getDueDate())
+                .renewalCount(loan.getRenewalCount())
+                .isReturned(loan.getIsReturned())
+                .memberId(loan.getMember().getMemberId())
+                .memberName(loan.getMember().getName())
+                .bookId(loan.getBook().getId())
+                .bookTitle(loan.getBook().getTitle())
+                .build();
+    }
 }

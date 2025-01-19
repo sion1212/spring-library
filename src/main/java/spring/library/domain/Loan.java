@@ -3,6 +3,7 @@ package spring.library.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Builder
@@ -12,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Loan {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,12 +24,22 @@ public class Loan {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    private Date dueDate;
-    private Date loanDate;
-
-    @Builder.Default
+    private LocalDate loanDate;
+    private LocalDate dueDate;
     private int renewalCount = 1;
-
-    @Builder.Default
     private Boolean isReturned = false;
+
+    public static Loan from(Book book, Member member) {
+        LocalDate now = LocalDate.now();
+        LocalDate afterFiveDays = now.plusDays(5);
+
+        return Loan.builder()
+                .member(member)
+                .book(book)
+                .loanDate(now)
+                .dueDate(afterFiveDays)
+                .renewalCount(1)
+                .isReturned(false)
+                .build();
+    }
 }
