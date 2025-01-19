@@ -26,7 +26,6 @@ public class BookDto {
                 .publicationYear(book.getPublicationYear())
                 .classification(book.getClassification())
                 .status(book.getStatus())
-                .amount(book.getAmount())
                 .build();
     }
 
@@ -38,7 +37,6 @@ public class BookDto {
                 .publicationYear(bookRequest.getPublicationYear())
                 .classification(bookRequest.getClassification())
                 .status(bookRequest.getStatus())
-                .amount(bookRequest.getAmount())
                 .build();
     }
 }

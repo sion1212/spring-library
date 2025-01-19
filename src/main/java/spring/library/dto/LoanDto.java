@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import spring.library.domain.Book;
-import spring.library.domain.User;
+import spring.library.domain.Member;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class LoanDto {
     private Long id;
-    private User user;
+    private Member member;
     private Book book;
     private LocalDateTime dueDate;
     private LocalDateTime loanDate;
