@@ -3,6 +3,7 @@ package spring.library.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import spring.library.controller.request.BookRequest;
 import spring.library.domain.Book;
 
 @Getter
@@ -28,6 +29,18 @@ public class BookDto {
                 .status(book.getStatus())
                 .amount(book.getAmount())
                 .userIdNumber(book.getUser().getIdNumber())
+                .build();
+    }
+
+    public static BookDto from(BookRequest bookRequest){
+        return BookDto.builder()
+                .title(bookRequest.getTitle())
+                .author(bookRequest.getAuthor())
+                .publisher(bookRequest.getPublisher())
+                .publicationYear(bookRequest.getPublicationYear())
+                .classification(bookRequest.getClassification())
+                .status(bookRequest.getStatus())
+                .amount(bookRequest.getAmount())
                 .build();
     }
 }

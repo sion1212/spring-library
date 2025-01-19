@@ -28,13 +28,13 @@ public class UserController {
     }
 
     @PutMapping("/members/{memberId}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable int memberId, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long memberId, @RequestBody UserRequest userRequest) {
         UserDto userDto = userService.update(memberId, userRequest);
         return ResponseEntity.ok().body(UserResponse.from(userDto));
     }
 
     @DeleteMapping("/members/{memberId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int memberId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long memberId) {
         userService.delete(memberId);
         return ResponseEntity.ok().build();
     }

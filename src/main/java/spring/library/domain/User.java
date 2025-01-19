@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
+    private Long memberId;
     private int idNumber;
     private String name;
     private String feature;

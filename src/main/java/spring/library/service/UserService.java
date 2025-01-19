@@ -32,14 +32,14 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto update(int idNumber, UserRequest userRequest){
-        User userOfIdNumber = userRepository.findById(idNumber).orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+    public UserDto update(Long memberId, UserRequest userRequest){
+        User userOfIdNumber = userRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("User Not Found"));
         User userForUpdate = User.from(userRequest);
         userOfIdNumber.update(userForUpdate);
         return UserDto.from(userOfIdNumber);
     }
 
-    public void delete(int idNumber){
-        userRepository.deleteById(idNumber);
+    public void delete(Long memberId){
+        userRepository.deleteById(memberId);
     }
 }
