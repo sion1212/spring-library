@@ -20,6 +20,7 @@ public class LoanDto {
     private String memberName;
     private Long bookId;
     private String bookTitle;
+    private String bookAuthor;
 
     public static LoanDto from(Loan loan){
         return LoanDto.builder()
@@ -31,6 +32,7 @@ public class LoanDto {
                 .memberName(loan.getMember().getName())
                 .bookId(loan.getBook().getId())
                 .bookTitle(loan.getBook().getTitle())
+                .bookAuthor(loan.getBook().getAuthor())
                 .build();
     }
 }

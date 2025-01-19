@@ -12,7 +12,7 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class Member { // memberId -> Post.member.id
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     private int idNumber;
