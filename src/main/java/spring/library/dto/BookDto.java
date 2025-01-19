@@ -17,7 +17,6 @@ public class BookDto {
     private String classification;
     private String status;
     private String amount;
-    private int userIdNumber;
 
     public static BookDto from(Book book) {
         return BookDto.builder()
@@ -28,7 +27,6 @@ public class BookDto {
                 .classification(book.getClassification())
                 .status(book.getStatus())
                 .amount(book.getAmount())
-                .userIdNumber(book.getUser().getIdNumber())
                 .build();
     }
 

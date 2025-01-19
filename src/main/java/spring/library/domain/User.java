@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import spring.library.controller.request.UserRequest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Setter
@@ -14,17 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long memberId;
     private int idNumber;
     private String name;
     private String feature;
     private String email;
     private String phoneNumber;
-    @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private List<Book> bookList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Loan> loanList = new ArrayList<>();
 
     public static User from(UserRequest userRequest) {
         return User.builder()

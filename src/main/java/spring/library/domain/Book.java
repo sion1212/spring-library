@@ -12,7 +12,7 @@ import spring.library.dto.BookDto;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String author;
@@ -20,10 +20,8 @@ public class Book {
     private int publicationYear;
     private String classification;
     private String status;
-    private String amount;
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // 외래키 지정
-    private User user;
+    @OneToOne(mappedBy = "book")
+    private Loan loan;
 
     public static Book from(BookRequest bookRequest) {
         return Book.builder()
@@ -33,7 +31,6 @@ public class Book {
                 .publicationYear(bookRequest.getPublicationYear())
                 .classification(bookRequest.getClassification())
                 .status(bookRequest.getStatus())
-                .amount(bookRequest.getAmount())
                 .build();
     }
 
@@ -44,6 +41,5 @@ public class Book {
         this.publicationYear = bookDto.getPublicationYear();
         this.classification = bookDto.getClassification();
         this.status = bookDto.getStatus();
-        this.amount = bookDto.getAmount();
     }
 }

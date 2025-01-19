@@ -20,9 +20,6 @@ public class UserDto {
     private String feature;
     private String email;
     private String phoneNumber;
-    private List<BookDto> bookDtoList;
-//    private List<Book> bookDtoList;
-    // todo: 이후 BookDto 변경 필요 -> 순환참조를 끊어주거나.. findby~~ 불러오는?
 
     public static UserDto from(User user) {
         return UserDto.builder()
@@ -31,7 +28,6 @@ public class UserDto {
                 .feature(user.getFeature())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
-                .bookDtoList(user.getBookList()!=null ? user.getBookList().stream().map(BookDto::from).toList() : null)
                 .build();
     }
 
