@@ -20,7 +20,7 @@ public class Book {
     private int publicationYear;
     private String classification;
     private String status;
-    @OneToOne(mappedBy = "book")
+    @OneToOne(mappedBy = "book", orphanRemoval = true)
     private Loan loan;
 
     public static Book from(BookRequest bookRequest) {

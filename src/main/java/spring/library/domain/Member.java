@@ -20,7 +20,7 @@ public class Member { // memberId -> Post.member.id
     private String feature;
     private String email;
     private String phoneNumber;
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Loan> loanList = new ArrayList<>();
 
     public static Member from(MemberRequest memberRequest) {

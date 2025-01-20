@@ -11,6 +11,7 @@ import static org.springframework.data.util.TypeUtils.type;
 @Setter
 @Builder
 public class MemberDto {
+    private Long memberId;
     private int idNumber;
     private String name;
     private String feature;
@@ -19,6 +20,7 @@ public class MemberDto {
 
     public static MemberDto from(Member member) {
         return MemberDto.builder()
+                .memberId(member.getMemberId())
                 .idNumber(member.getIdNumber())
                 .name(member.getName())
                 .feature(member.getFeature())
