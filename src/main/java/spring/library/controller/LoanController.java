@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.library.controller.request.MemberIdRequest;
+import spring.library.controller.response.LoanHistoryResponse;
 import spring.library.controller.response.LoanResponse;
 import spring.library.dto.LoanDto;
 import spring.library.service.LoanService;
@@ -23,8 +24,15 @@ public class LoanController {
 
     @GetMapping("/books/checkout")
     public ResponseEntity<List<LoanResponse>> loadBookListOfMemberId(@RequestParam Long memberId) {
-        List<LoanDto> loanDtoList = loanService.LoanedBookList(memberId);
+        List<LoanDto> loanDtoList = loanService.loanedBookList(memberId);
         List<LoanResponse> loanResponseList = loanDtoList.stream().map(LoanResponse::from).toList();
         return ResponseEntity.ok().body(loanResponseList);
+    }
+
+    @GetMapping("/books/history")
+    public ResponseEntity<List<LoanHistoryResponse>> loanHistoryForMemberId(@RequestParam Long memberId) {
+        List<LoanDto> loanDtoList = loanService.loanHistory(memberId);
+        List<LoanHistoryResponse> loanHistoryResponseList = loanDtoList.stream().map(LoanHistoryResponse::from).toList();
+        return ResponseEntity.ok().body(loanHistoryResponseList);
     }
 }

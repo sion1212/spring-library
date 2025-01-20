@@ -21,15 +21,22 @@ public class LoanService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
 
+    // TODO: feature마다 빌릴 수 있는 책의 개수와 빌리는 일자를 변경해 줘야한다
     public LoanDto loanBook(Long bookId, MemberIdRequest memberIdRequest) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("null"));
         Member member = memberRepository.findById(memberIdRequest.getMemberId()).orElseThrow(() -> new IllegalArgumentException("null"));
+        book.setStatus("대출중");
         Loan loan = Loan.from(book, member);
         return LoanDto.from(loanRepository.save(loan));
     }
 
-    public List<LoanDto> LoanedBookList(Long memberId) {
+    public List<LoanDto> loanedBookList(Long memberId) {
         List<Loan> loanList = loanRepository.findLoanByMemberMemberIdAndIsReturnedIsFalse(memberId);
+        return loanList.stream().map(LoanDto::from).toList();
+    }
+
+    public List<LoanDto> loanHistory(Long memberId) {
+        List<Loan> loanList = loanRepository.findLoanByMemberMemberId(memberId);
         return loanList.stream().map(LoanDto::from).toList();
     }
 }
