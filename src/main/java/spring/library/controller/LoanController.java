@@ -41,4 +41,10 @@ public class LoanController {
         loanService.returnBook(bookId, memberIdRequest);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/books/{bookId}/renewal")
+    public ResponseEntity<Void> renewalDate(@PathVariable Long bookId, @RequestBody MemberIdRequest memberIdRequest) {
+        loanService.renewal(bookId, memberIdRequest);
+        return ResponseEntity.ok().build();
+    }
 }

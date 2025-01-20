@@ -15,4 +15,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     Loan findLoanByBook_Id(Long bookId);
 
     Loan findLoanByBook_IdAndMember_MemberId(Long bookId, Long memberMemberId);
+
+    Loan findLoanByBook_IdAndMember_MemberIdAndIsReturned(Long bookId, Long memberMemberId, Boolean isReturned);
 }
