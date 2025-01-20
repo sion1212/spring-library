@@ -35,4 +35,10 @@ public class LoanController {
         List<LoanHistoryResponse> loanHistoryResponseList = loanDtoList.stream().map(LoanHistoryResponse::from).toList();
         return ResponseEntity.ok().body(loanHistoryResponseList);
     }
+
+    @PutMapping("/books/{bookId}/return")
+    public ResponseEntity<Void> returnBook(@PathVariable Long bookId, @RequestBody MemberIdRequest memberIdRequest) {
+        loanService.returnBook(bookId, memberIdRequest);
+        return ResponseEntity.ok().build();
+    }
 }

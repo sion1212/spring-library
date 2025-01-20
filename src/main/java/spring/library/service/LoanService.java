@@ -39,4 +39,11 @@ public class LoanService {
         List<Loan> loanList = loanRepository.findLoanByMemberMemberId(memberId);
         return loanList.stream().map(LoanDto::from).toList();
     }
+
+    public void returnBook(Long bookId, MemberIdRequest memberIdRequest) {
+        Loan loan = loanRepository.findLoanByBook_IdAndMember_MemberId(bookId,memberIdRequest.getMemberId());
+        loan.setIsReturned(true);
+        loan.getBook().setStatus("대출가능");
+        loanRepository.save(loan);
+    }
 }

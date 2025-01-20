@@ -4,10 +4,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import spring.library.domain.Loan;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 //    List<Loan> findByMember_MemberIdAndIsReturnedIsFalse(Long memberMemberId, Boolean isReturned);
     List<Loan> findLoanByMemberMemberIdAndIsReturnedIsFalse(Long memberMemberId);
 
     List<Loan> findLoanByMemberMemberId(Long member_memberId);
+
+    Loan findLoanByBook_Id(Long bookId);
+
+    Loan findLoanByBook_IdAndMember_MemberId(Long bookId, Long memberMemberId);
 }
