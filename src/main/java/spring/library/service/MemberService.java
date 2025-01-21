@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.library.controller.request.MemberRequest;
+import spring.library.domain.Loan;
 import spring.library.domain.Member;
-import spring.library.dto.MemberDto;
 import spring.library.dto.MemberDto;
 import spring.library.repository.MemberRepository;
 
@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-
     private final MemberRepository memberRepository;
 
     public MemberDto save(MemberRequest memberRequest){
@@ -39,6 +38,12 @@ public class MemberService {
     }
 
     public void delete(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Member Not Found"));
+        List<Loan> loanList = member.getLoanList();
+        for(Loan loan : loanList){
+            loan.getBook().setStatus("대출가능");
+        }
+        memberRepository.save(member);
         memberRepository.deleteById(memberId);
     }
 }

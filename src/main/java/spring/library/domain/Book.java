@@ -5,6 +5,9 @@ import lombok.*;
 import spring.library.controller.request.BookRequest;
 import spring.library.dto.BookDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -13,6 +16,7 @@ import spring.library.dto.BookDto;
 @NoArgsConstructor
 public class Book {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="book_id")
     private Long id;
     private String title;
     private String author;
@@ -20,8 +24,8 @@ public class Book {
     private int publicationYear;
     private String classification;
     private String status;
-    @OneToOne(mappedBy = "book", orphanRemoval = true)
-    private Loan loan;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<Loan> loanList = new ArrayList<>();
 
     public static Book from(BookRequest bookRequest) {
         return Book.builder()

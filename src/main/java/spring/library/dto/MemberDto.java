@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import spring.library.domain.Member;
 
-import static org.springframework.data.util.TypeUtils.type;
-
 @Getter
 @Setter
 @Builder
