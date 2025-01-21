@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.library.controller.request.MemberIdRequest;
 import spring.library.domain.Book;
+import spring.library.domain.BookHistory;
 import spring.library.domain.Loan;
 import spring.library.domain.Member;
 import spring.library.dto.LoanDto;
+import spring.library.repository.BookHistoryRepository;
 import spring.library.repository.BookRepository;
 import spring.library.repository.LoanRepository;
 import spring.library.repository.MemberRepository;
@@ -21,22 +23,28 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class LoanService {
     private final LoanRepository loanRepository;
+    private final BookHistoryRepository bookHistoryRepository;
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
 
     public LoanDto loanBook(Long bookId, MemberIdRequest memberIdRequest) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("null"));
-        Member member = memberRepository.findById(memberIdRequest.getMemberId()).orElseThrow(() -> new IllegalArgumentException("null"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("There is no book for bookId"));
+        BookHistory bookHistory = bookHistoryRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("There is no book for bookId"));
+        Member member = memberRepository.findById(memberIdRequest.getMemberId()).orElseThrow(() -> new IllegalArgumentException("There is not member for memberId"));
 
         if(isOverMaximum(member)){
             throw new IllegalArgumentException("you can not loan over maximum");
         }
-        if(isLoanedBook(book)){
+        if(isLoanedBook(bookHistory)){
             throw new IllegalArgumentException("this book is already loaned");
         }
 
+        bookHistory.setStatus("대출중");
         book.setStatus("대출중");
-        Loan loan = Loan.from(book, member);
+        bookHistoryRepository.save(bookHistory);
+        bookRepository.save(book);
+
+        Loan loan = Loan.from(bookHistory, member);
         return LoanDto.from(loanRepository.save(loan));
     }
 
@@ -64,7 +72,7 @@ public class LoanService {
         return result;
     }
 
-    public boolean isLoanedBook(Book book) {
+    public boolean isLoanedBook(BookHistory book) {
         boolean result = false;
         String status = book.getStatus();
 
@@ -85,15 +93,19 @@ public class LoanService {
     }
 
     public void returnBook(Long bookId, MemberIdRequest memberIdRequest) {
-        Loan loan = loanRepository.findLoanByBook_IdAndMember_MemberId(bookId,memberIdRequest.getMemberId());
+        Loan loan = loanRepository.findLoanByBookHistory_IdAndMemberMemberId(bookId,memberIdRequest.getMemberId());
+        Book book = bookRepository.findById(loan.getBookHistory().getId()).orElseThrow(() -> new IllegalArgumentException("There is no book for bookId"));
         loan.setIsReturned(true);
-        loan.getBook().setStatus("대출가능");
+        loan.getBookHistory().setStatus("대출가능");
         loanRepository.save(loan);
+
+        book.setStatus("대출가능");
+        bookRepository.save(book);
     }
 
     // TODO: 대출한 도서 대상임
     public void renewal(Long bookId, MemberIdRequest memberIdRequest) {
-        Loan loan = loanRepository.findLoanByBook_IdAndMember_MemberIdAndIsReturned(bookId,memberIdRequest.getMemberId(),false);
+        Loan loan = loanRepository.findLoanByBookHistory_IdAndMember_MemberIdAndIsReturned(bookId,memberIdRequest.getMemberId(),false);
         int renewalCount = loan.getRenewalCount();
         LocalDate dueDate = loan.getDueDate();
 

@@ -30,9 +30,9 @@ public class LoanDto {
                 .isReturned(loan.getIsReturned())
                 .memberId(loan.getMember().getMemberId())
                 .memberName(loan.getMember().getName())
-                .bookId(loan.getBook().getId())
-                .bookTitle(loan.getBook().getTitle())
-                .bookAuthor(loan.getBook().getAuthor())
+                .bookId(loan.getBookHistory().getId())
+                .bookTitle(loan.getBookHistory().getTitle())
+                .bookAuthor(loan.getBookHistory().getAuthor())
                 .build();
     }
 }

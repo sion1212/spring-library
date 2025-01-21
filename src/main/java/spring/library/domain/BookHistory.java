@@ -14,9 +14,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
+public class BookHistory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="book_id")
+    @Column(name="book_history_id")
     private Long id;
     private String title;
     private String author;
@@ -24,9 +24,11 @@ public class Book {
     private int publicationYear;
     private String classification;
     private String status;
+    @OneToMany(mappedBy = "bookHistory", cascade = CascadeType.ALL)
+    private List<Loan> loanList = new ArrayList<>();
 
-    public static Book from(BookRequest bookRequest) {
-        return Book.builder()
+    public static BookHistory from(BookRequest bookRequest) {
+        return BookHistory.builder()
                 .title(bookRequest.getTitle())
                 .author(bookRequest.getAuthor())
                 .publisher(bookRequest.getPublisher())

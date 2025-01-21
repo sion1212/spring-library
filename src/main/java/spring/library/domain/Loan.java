@@ -21,8 +21,8 @@ public class Loan {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @JoinColumn(name = "book_history_id")
+    private BookHistory bookHistory;
 
     private LocalDate loanDate;
     private LocalDate dueDate;
@@ -30,7 +30,7 @@ public class Loan {
     private Boolean isReturned;
 
     //TODO: feature 이상한 값 들어왔을 떄 처리해주는 코드 필요
-    public static Loan from(Book book, Member member) {
+    public static Loan from(BookHistory book, Member member) {
         Loan loan = null;
         LocalDate now = LocalDate.now();
 
@@ -38,7 +38,7 @@ public class Loan {
         if(feature.equals("학생")){
             loan = Loan.builder()
                     .member(member)
-                    .book(book)
+                    .bookHistory(book)
                     .loanDate(now)
                     .dueDate(now.plusDays(10))
                     .renewalCount(1)
@@ -48,7 +48,7 @@ public class Loan {
         else if(feature.equals("교직원")){
             loan = Loan.builder()
                     .member(member)
-                    .book(book)
+                    .bookHistory(book)
                     .loanDate(now)
                     .dueDate(now.plusDays(30))
                     .renewalCount(1)
@@ -58,7 +58,7 @@ public class Loan {
         else{
             loan = Loan.builder()
                     .member(member)
-                    .book(book)
+                    .bookHistory(book)
                     .loanDate(now)
                     .dueDate(now.plusDays(110813))
                     .renewalCount(1)
